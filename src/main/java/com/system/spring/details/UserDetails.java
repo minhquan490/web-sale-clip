@@ -61,4 +61,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
 		return user.isEnabled();
 	}
 
+	public boolean isPremium() {
+		return user.isPremium();
+	}
+
 }

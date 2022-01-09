@@ -1,5 +1,7 @@
 package com.system.spring.service;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.system.spring.entity.User;
@@ -12,6 +14,8 @@ public interface UserService extends UserDetailsService {
 	boolean edit(User user);
 
 	boolean delete(User user);
+
+	List<User> getAllUser();
 
 	UserVo getUserFromUsername(String username);
 

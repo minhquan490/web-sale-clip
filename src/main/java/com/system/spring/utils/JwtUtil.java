@@ -29,7 +29,8 @@ public class JwtUtil {
 		UserVo user = new UserVo(body.getSubject(), (String) body.get("email"),
 				Arrays.asList(body.get("roles").toString().split(",")).stream().map(r -> new String(r))
 						.collect(Collectors.toSet()),
-				true);
+				Boolean.getBoolean(body.get("isEnabled").toString()),
+				Boolean.getBoolean(body.get("isPremium").toString()));
 		return user;
 	}
 
@@ -37,6 +38,8 @@ public class JwtUtil {
 		Claims claims = Jwts.claims().setSubject(userRequest.getUsername());
 		claims.put("roles", userRequest.getRoles());
 		claims.put("email", userRequest.getEmail());
+		claims.put("isEnabled", userRequest.isEnabled());
+		claims.put("isPremium", userRequest.isPremium());
 		long now = System.currentTimeMillis();
 		long expire = now + TOKEN_VALIDITY;
 		Date expireToken = new Date(expire);

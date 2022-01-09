@@ -1,6 +1,7 @@
 package com.system.spring.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,8 @@ public class UserServiceImpl implements UserService {
 				roles.add(roleService.getRoleByName(role));
 			}
 			userRepository.save(new User(userRequest.getEmail(), userRequest.getUsername(),
-					new BCryptPasswordEncoder().encode(userRequest.getPassword()), roles));
+					new BCryptPasswordEncoder().encode(userRequest.getPassword()), userRequest.isPremium(),
+					userRequest.isEnabled(), roles));
 			return true;
 		}
 
@@ -102,5 +104,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserHasClipsPurchased(long id) {
 		return userRepository.getUserHasClipsPurchased(id);
+	}
+
+	@Override
+	public List<User> getAllUser() {
+		return userRepository.findAll();
 	}
 }

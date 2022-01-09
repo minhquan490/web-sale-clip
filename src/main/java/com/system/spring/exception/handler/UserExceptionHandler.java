@@ -17,7 +17,7 @@ public class UserExceptionHandler {
 
 	static Logger log = Logger.getLogger(UserExceptionHandler.class.getName());
 
-	@Around("execution(* com.system.spring.controller.UserController.login(..))")
+	@Around("execution(* com.system.spring.controller.HomeController.login(..))")
 	public void processUserControllerException(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		try {
 			proceedingJoinPoint.proceed();

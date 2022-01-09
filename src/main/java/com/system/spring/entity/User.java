@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-@SuppressWarnings({ "serial", "deprecation" })
+@SuppressWarnings({ "serial" })
 @Entity
 @Table(name = "User")
 public class User implements Serializable {
@@ -84,11 +84,13 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(String email, String username, String password, Set<Role> roles) {
+	public User(String email, String username, String password, boolean isPremium, boolean isEnabled, Set<Role> roles) {
 		super();
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.isPremium = isPremium;
+		this.isEnabled = isEnabled;
 		this.roles = roles;
 	}
 
