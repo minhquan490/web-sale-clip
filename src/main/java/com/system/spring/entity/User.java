@@ -53,6 +53,9 @@ public class User implements Serializable {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	@Column(name = "avatar")
+	private String avatar;
+
 	@Column(name = "premium", columnDefinition = "TINYINT")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean isPremium;
@@ -212,5 +215,13 @@ public class User implements Serializable {
 
 	public void setClipsHaveBeenPurchased(Set<Clip> clipsHaveBeenPurchased) {
 		this.clipsHaveBeenPurchased = clipsHaveBeenPurchased;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 }

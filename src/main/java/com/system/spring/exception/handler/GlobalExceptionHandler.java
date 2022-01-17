@@ -12,6 +12,7 @@ import com.system.spring.exception.DisabledUserException;
 import com.system.spring.exception.InvalidUserCredentialsException;
 import com.system.spring.exception.JwtMissingException;
 import com.system.spring.exception.JwtTokenMalformedException;
+import com.system.spring.exception.MissingFieldException;
 import com.system.spring.exception.ResourceNotFoundException;
 
 @Aspect
@@ -24,7 +25,8 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public @ResponseBody ResponseEntity<String> ExceptionHandler(Exception e) {
 		log.error(e.getMessage(), e);
-		return ResponseEntity.badRequest().body("Unknown error");
+		e.printStackTrace();
+		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
 	@AfterThrowing(pointcut = "execution(* com.system.spring.*.*(..))", throwing = "e")
@@ -59,6 +61,13 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(InvalidUserCredentialsException.class)
 	public @ResponseBody ResponseEntity<String> invalidUserCredentialsExceptionHandler(
 			InvalidUserCredentialsException e) {
+		log.error(e.getMessage(), e);
+		return ResponseEntity.badRequest().body(e.getMessage());
+	}
+
+	@AfterThrowing(pointcut = "execution(* com.system.spring.*.*(..))", throwing = "e")
+	@ExceptionHandler(MissingFieldException.class)
+	public @ResponseBody ResponseEntity<String> missingFieldExceptionHandler(MissingFieldException e) {
 		log.error(e.getMessage(), e);
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}

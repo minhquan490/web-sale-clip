@@ -9,7 +9,7 @@ import com.system.spring.request.UserVo;
 
 public interface UserService extends UserDetailsService {
 
-	boolean save(UserVo userRequest);
+	boolean save(UserVo user);
 
 	boolean edit(User user);
 
@@ -19,9 +19,9 @@ public interface UserService extends UserDetailsService {
 
 	UserVo getUserFromUsername(String username);
 
-	User getUserInformation(long userId);
+	User getUserInformation(String username);
 
 	User getUserClip(long userId);
 
-	User getUserHasClipsPurchased(long id);
+	User getUserHasClipsPurchased(long idUser);
 }

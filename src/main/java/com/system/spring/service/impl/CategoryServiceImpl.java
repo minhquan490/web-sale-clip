@@ -15,6 +15,7 @@ import com.system.spring.repository.CategoryRepository;
 import com.system.spring.service.CategoryService;
 
 @Service
+@SuppressWarnings("deprecation")
 public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired

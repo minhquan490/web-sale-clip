@@ -1,4 +1,4 @@
-package com.system.spring.controller.client;
+package com.system.spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,14 +30,10 @@ public class RegisterController {
 			u.setPremium(false);
 			if (registerRequest.getRoles().contains("admin")) {
 				registerRequest.getRoles().remove("admin");
-				u.setRoles(registerRequest.getRoles());
 			}
-			if (userService.save(u)) {
-				return new ResponseEntity<String>("User successfully registered", HttpStatus.OK);
-			} else {
-				return new ResponseEntity<String>("User unsuccessfully registered", HttpStatus.OK);
-			}
-
+			u.setRoles(registerRequest.getRoles());
+			userService.save(u);
+			return new ResponseEntity<String>("User register success", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("User already exists", HttpStatus.CONFLICT);
 		}

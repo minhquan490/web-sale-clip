@@ -8,6 +8,7 @@ import com.system.spring.repository.ItemRepository;
 import com.system.spring.service.ItemService;
 
 @Service
+@SuppressWarnings("deprecation")
 public class ItemServiceImpl implements ItemService {
 
 	@Autowired

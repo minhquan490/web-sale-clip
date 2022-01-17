@@ -38,6 +38,11 @@ public class Credit implements Serializable {
 		super();
 	}
 
+	public Credit(User user) {
+		super();
+		this.user = user;
+	}
+
 	public long getId() {
 		return id;
 	}

@@ -33,12 +33,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		try {
-			String header = request.getHeader("Authorization");
-			if (header == null) {
+			String token = request.getHeader("Authorization");
+			if (token == null) {
 				throw new JwtMissingException("No JWT token found in request");
 			}
-			String token = header.substring(0);
-			jwtUtil.validateToken(token);
 			UserVo user = jwtUtil.getUserFromToken(token);
 			UserDetails userDetails = (UserDetails) userService.loadUserByUsername(user.getUsername());
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

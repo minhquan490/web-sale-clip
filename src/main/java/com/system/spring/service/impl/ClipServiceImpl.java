@@ -15,6 +15,7 @@ import com.system.spring.repository.ClipRepository;
 import com.system.spring.service.ClipService;
 
 @Service
+@SuppressWarnings("deprecation")
 public class ClipServiceImpl implements ClipService {
 
 	@Autowired

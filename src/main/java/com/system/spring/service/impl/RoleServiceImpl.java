@@ -9,6 +9,7 @@ import com.system.spring.repository.RoleRepository;
 import com.system.spring.service.RoleService;
 
 @Service
+@SuppressWarnings("deprecation")
 public class RoleServiceImpl implements RoleService {
 
 	@Autowired

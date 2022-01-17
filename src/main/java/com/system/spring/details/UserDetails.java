@@ -65,4 +65,11 @@ public class UserDetails implements org.springframework.security.core.userdetail
 		return user.isPremium();
 	}
 
+	public long getUserId() {
+		return user.getId();
+	}
+
+	public User getUser() {
+		return this.user;
+	}
 }

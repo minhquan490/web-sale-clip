@@ -38,6 +38,11 @@ public class Cart implements Serializable {
 		super();
 	}
 
+	public Cart(User user) {
+		super();
+		this.user = user;
+	}
+
 	public long getId() {
 		return id;
 	}

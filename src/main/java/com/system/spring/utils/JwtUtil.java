@@ -1,5 +1,7 @@
 package com.system.spring.utils;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
@@ -25,7 +27,7 @@ public class JwtUtil {
 	private String jwtSecretEncodedKey = Base64.getEncoder().encodeToString(JWT_SECRET_KEY.getBytes());
 
 	public UserVo getUserFromToken(final String TOKEN) throws Exception {
-		Claims body = Jwts.parser().setSigningKey(jwtSecretEncodedKey).parseClaimsJwt(TOKEN).getBody();
+		Claims body = validateToken(TOKEN);
 		UserVo user = new UserVo(body.getSubject(), (String) body.get("email"),
 				Arrays.asList(body.get("roles").toString().split(",")).stream().map(r -> new String(r))
 						.collect(Collectors.toSet()),
@@ -40,15 +42,14 @@ public class JwtUtil {
 		claims.put("email", userRequest.getEmail());
 		claims.put("isEnabled", userRequest.isEnabled());
 		claims.put("isPremium", userRequest.isPremium());
-		long now = System.currentTimeMillis();
+		long now = ZonedDateTime.now(ZoneId.of("UTC+7")).toInstant().toEpochMilli();
 		long expire = now + TOKEN_VALIDITY;
-		Date expireToken = new Date(expire);
-		return Jwts.builder().setClaims(claims).setIssuedAt(new Date(now)).setExpiration(expireToken)
+		return Jwts.builder().setClaims(claims).setIssuedAt(new Date(now)).setExpiration(new Date(expire))
 				.signWith(SignatureAlgorithm.HS512, jwtSecretEncodedKey).compact();
 	}
 
-	public void validateToken(final String TOKEN) throws SignatureException, MalformedJwtException, ExpiredJwtException,
-			UnsupportedJwtException, IllegalAccessException {
-		Jwts.parser().setSigningKey(jwtSecretEncodedKey).parseClaimsJws(TOKEN);
+	private Claims validateToken(final String TOKEN) throws SignatureException, MalformedJwtException,
+			ExpiredJwtException, UnsupportedJwtException, IllegalAccessException {
+		return Jwts.parser().setSigningKey(jwtSecretEncodedKey).parseClaimsJws(TOKEN).getBody();
 	}
 }

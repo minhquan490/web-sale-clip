@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.system.spring.entity.Cart;
+import com.system.spring.entity.Credit;
 import com.system.spring.entity.Role;
 import com.system.spring.entity.User;
 import com.system.spring.exception.ResourceNotFoundException;
@@ -20,6 +22,7 @@ import com.system.spring.service.RoleService;
 import com.system.spring.service.UserService;
 
 @Service
+@SuppressWarnings("deprecation")
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -44,9 +47,16 @@ public class UserServiceImpl implements UserService {
 			for (String role : userRequest.getRoles()) {
 				roles.add(roleService.getRoleByName(role));
 			}
-			userRepository.save(new User(userRequest.getEmail(), userRequest.getUsername(),
-					new BCryptPasswordEncoder().encode(userRequest.getPassword()), userRequest.isPremium(),
-					userRequest.isEnabled(), roles));
+			User user = new User();
+			user.setUsername(userRequest.getUsername());
+			user.setPassword(new BCryptPasswordEncoder().encode(userRequest.getPassword()));
+			user.setEmail(userRequest.getEmail());
+			user.setEnabled(userRequest.isEnabled());
+			user.setPremium(userRequest.isPremium());
+			user.setRoles(roles);
+			user.setCredit(new Credit(user));
+			user.setCart(new Cart(user));
+			userRepository.save(user);
 			return true;
 		}
 
@@ -92,8 +102,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserInformation(long userId) {
-		return userRepository.getUserInformation(userId);
+	public User getUserInformation(String username) {
+		return userRepository.getUserInformation(username);
 	}
 
 	@Override
@@ -110,4 +120,5 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAllUser() {
 		return userRepository.findAll();
 	}
+
 }

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.system.spring.entity.Cart;
 import com.system.spring.entity.Item;
@@ -11,6 +12,8 @@ import com.system.spring.exception.ResourceNotFoundException;
 import com.system.spring.repository.CartRepository;
 import com.system.spring.service.CartService;
 
+@Service
+@SuppressWarnings("deprecation")
 public class CartServiceImpl implements CartService {
 
 	@Autowired
