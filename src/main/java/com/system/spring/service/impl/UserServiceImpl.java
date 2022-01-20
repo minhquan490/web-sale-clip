@@ -102,11 +102,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserInformation(String username) {
-		return userRepository.getUserInformation(username);
-	}
-
-	@Override
 	public User getUserClip(long userId) {
 		return userRepository.getUserClip(userId);
 	}

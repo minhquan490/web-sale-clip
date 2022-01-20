@@ -1,6 +1,6 @@
 package com.system.spring.config;
 
-public class PathApiConfig {
+public class ApiConfig {
 
 	public static final String REGISTER_PATH = "/register";
 	public static final String LOGIN_PATH = "/login";

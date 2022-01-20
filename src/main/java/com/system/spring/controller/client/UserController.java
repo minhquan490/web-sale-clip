@@ -1,5 +1,7 @@
 package com.system.spring.controller.client;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,8 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.system.spring.details.UserDetails;
 import com.system.spring.entity.User;
-import com.system.spring.exception.MissingFieldException;
 import com.system.spring.request.UserUpdateRequest;
+import com.system.spring.response.ClipHasPurchased;
+import com.system.spring.response.MyClips;
 import com.system.spring.response.UserInfo;
 import com.system.spring.service.UserService;
 
@@ -26,57 +29,59 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@PreAuthorize("hasAuthority('viewer')")
+	@PreAuthorize("hasAnyAuthority('viewer', 'admin', 'actor')")
 	@GetMapping("/my-info")
 	public @ResponseBody ResponseEntity<?> myInfo() throws Exception {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		User user = userDetails.getUser();
-		UserInfo userInfo;
-		if (user.getFirstName().isBlank() && user.getLastName().isBlank() && user.getGender().isBlank()
-				&& user.getAvatar().isBlank()) {
-			userInfo = new UserInfo(user.getId(), "", "", user.getEmail(), "", "", user.getUsername(), "");
-		} else {
-			userInfo = new UserInfo(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(),
-					user.getGender(), user.getBirthDate().toString(), user.getUsername(), user.getAvatar());
-		}
+		UserInfo userInfo = new UserInfo(user.getId(), user.getFirstName() == null ? "" : user.getFirstName(),
+				user.getLastName() == null ? "" : user.getLastName(), user.getEmail(),
+				user.getGender() == null ? "" : user.getGender(),
+				user.getBirthDate() == null ? "" : user.getBirthDate().toString(), user.getUsername(),
+				user.getAvatar() == null ? "" : user.getAvatar());
 		return ResponseEntity.ok().body(userInfo);
 	}
 
-	@PreAuthorize("hasRole('viewer') or hasRole('actor')")
-	@GetMapping("my-clip-purchased")
-	public @ResponseBody ResponseEntity<?> getMyClipPurchased() {
+	@PreAuthorize("hasAnyAuthority('viewer', 'actor')")
+	@GetMapping("/my-clip-purchased")
+	public @ResponseBody ResponseEntity<?> getMyClipPurchased() throws NullPointerException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		User user = userService.getUserHasClipsPurchased(userDetails.getUserId());
-		return ResponseEntity.ok().body(user);
+		ClipHasPurchased clipsHasPurchased = new ClipHasPurchased(user.getClipsHaveBeenPurchased());
+		return ResponseEntity.ok().body(clipsHasPurchased);
 	}
 
-	@PreAuthorize("hasRole('actor')")
-	@GetMapping("my-clips")
-	public @ResponseBody ResponseEntity<?> getMyClips() {
+	@PreAuthorize("hasAuthority('actor')")
+	@GetMapping("/my-clips")
+	public @ResponseBody ResponseEntity<?> getMyClips() throws NullPointerException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		User user = userService.getUserClip(userDetails.getUserId());
-		return ResponseEntity.ok().body(user);
+		MyClips myClips = new MyClips(user.getClips());
+		return ResponseEntity.ok().body(myClips);
 	}
 
-	@PreAuthorize("hasRole('anonymous')")
+	@PreAuthorize("hasAnyAuthority('viewer', 'admin', 'actor')")
 	@PutMapping("/update")
-	public @ResponseBody ResponseEntity<?> updateMyInfo(@RequestBody UserUpdateRequest updateRequest) {
-		if (updateRequest.getFirstName().isBlank() || updateRequest.getLastName().isBlank()
-				|| updateRequest.getGender().isBlank() || updateRequest.getBirthDate().toString().isBlank()) {
-			throw new MissingFieldException("Please insert full your information");
-		}
+	public @ResponseBody ResponseEntity<?> updateMyInfo(@RequestBody UserUpdateRequest updateRequest)
+			throws NullPointerException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		User oldUser = userService.getUserInformation(userDetails.getUsername());
-		oldUser.setFirstName(updateRequest.getFirstName());
-		oldUser.setLastName(updateRequest.getLastName());
-		oldUser.setGender(updateRequest.getGender());
-		oldUser.setBirthDate(updateRequest.getBirthDate());
-		userService.edit(oldUser);
-		return ResponseEntity.ok().body("Update success !");
+		User oldUser = userDetails.getUser();
+		oldUser.setFirstName(
+				updateRequest.getFirstName() == null ? oldUser.getFirstName() : updateRequest.getFirstName());
+		oldUser.setLastName(updateRequest.getLastName() == null ? oldUser.getLastName() : updateRequest.getLastName());
+		oldUser.setGender(updateRequest.getGender() == null ? oldUser.getGender() : updateRequest.getGender());
+		oldUser.setBirthDate(Date.valueOf(updateRequest.getBirthDate() == null ? oldUser.getBirthDate().toString()
+				: updateRequest.getBirthDate()));
+		if (userService.edit(oldUser)) {
+			return ResponseEntity.ok().body("Update success !");
+		} else {
+			return ResponseEntity.badRequest().body("Update failure !");
+		}
+
 	}
 
 }

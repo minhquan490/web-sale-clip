@@ -31,7 +31,7 @@ public class Cart implements Serializable {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cart")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
 	Set<Item> items = new HashSet<Item>();
 
 	public Cart() {

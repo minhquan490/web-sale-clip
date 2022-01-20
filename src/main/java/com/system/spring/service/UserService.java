@@ -19,8 +19,6 @@ public interface UserService extends UserDetailsService {
 
 	UserVo getUserFromUsername(String username);
 
-	User getUserInformation(String username);
-
 	User getUserClip(long userId);
 
 	User getUserHasClipsPurchased(long idUser);

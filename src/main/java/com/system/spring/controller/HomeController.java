@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.spring.config.PathApiConfig;
+import com.system.spring.config.ApiConfig;
 import com.system.spring.entity.Category;
 import com.system.spring.entity.Clip;
 import com.system.spring.service.CategoryService;
@@ -24,7 +24,7 @@ public class HomeController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@GetMapping(path = PathApiConfig.HOME_PATH)
+	@GetMapping(path = ApiConfig.HOME_PATH)
 	public ResponseEntity<?> home() {
 		List<Clip> allClips = clipService.getAllClips();
 		List<Category> allCategories = categoryService.getAllCategories();

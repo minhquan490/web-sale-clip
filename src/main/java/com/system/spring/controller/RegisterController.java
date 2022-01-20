@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.spring.config.PathApiConfig;
+import com.system.spring.config.ApiConfig;
 import com.system.spring.request.RegisterRequest;
 import com.system.spring.request.UserVo;
 import com.system.spring.service.UserService;
@@ -18,7 +18,7 @@ public class RegisterController {
 	@Autowired
 	private UserService userService;
 
-	@PostMapping(PathApiConfig.REGISTER_PATH)
+	@PostMapping(ApiConfig.REGISTER_PATH)
 	public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
 		UserVo userVo = userService.getUserFromUsername(registerRequest.getUsername());
 		if (userVo == null) {

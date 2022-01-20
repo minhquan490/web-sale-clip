@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.spring.config.PathApiConfig;
+import com.system.spring.config.ApiConfig;
 import com.system.spring.details.UserDetails;
 import com.system.spring.request.LoginRequest;
 import com.system.spring.request.UserVo;
@@ -30,7 +30,7 @@ public class LoginController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	@PostMapping(path = PathApiConfig.LOGIN_PATH)
+	@PostMapping(path = ApiConfig.LOGIN_PATH)
 	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest)
 			throws DisabledException, BadCredentialsException {
 		Authentication authentication = authenticationManager.authenticate(

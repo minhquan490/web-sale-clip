@@ -1,12 +1,11 @@
 package com.system.spring.request;
 
-import java.sql.Date;
-
 public class UserUpdateRequest {
+
 	private String firstName;
 	private String lastName;
 	private String gender;
-	private Date birthDate;
+	private String birthDate;
 
 	public UserUpdateRequest() {
 		super();
@@ -24,7 +23,7 @@ public class UserUpdateRequest {
 		return gender;
 	}
 
-	public Date getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 }
