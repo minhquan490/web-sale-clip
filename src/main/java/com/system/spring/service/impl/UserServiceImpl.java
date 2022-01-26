@@ -75,6 +75,10 @@ public class UserServiceImpl implements UserService {
 		existingUser.setBirthDate(user.getBirthDate());
 		existingUser.setPremium(user.isPremium());
 		existingUser.setEnabled(user.isEnabled());
+		existingUser.setRoles(user.getRoles());
+		existingUser.setClips(user.getClips());
+		existingUser.setClipsHaveBeenPurchased(user.getClipsHaveBeenPurchased());
+		existingUser.setAvatar(user.getAvatar());
 		userRepository.save(existingUser);
 		return true;
 	}
