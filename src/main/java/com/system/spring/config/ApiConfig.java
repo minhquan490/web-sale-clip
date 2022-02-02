@@ -11,6 +11,8 @@ public class ApiConfig {
 	public static final String LOGOUT_PATH = "/logout";
 	public static final String HOME_PATH = "/home";
 
+	public static final String RESOURCE_PATH = "/resources";
+
 	public static final String USER_PATH = "/user";
 	public static final String MY_INFO_PATH = "/my-info";
 	public static final String MY_CLIP_PURCHASED = "/my-clip-purchased";

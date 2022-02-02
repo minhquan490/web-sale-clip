@@ -1,10 +1,11 @@
 package com.system.spring.controller;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +20,7 @@ import com.system.spring.config.ApiConfig;
 import com.system.spring.details.UserDetails;
 import com.system.spring.request.LoginRequest;
 import com.system.spring.request.UserVo;
+import com.system.spring.response.ServerResponse;
 import com.system.spring.utils.JwtUtil;
 
 @RestController
@@ -31,7 +33,7 @@ public class LoginController {
 	private AuthenticationManager authenticationManager;
 
 	@PostMapping(path = ApiConfig.LOGIN_PATH)
-	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest)
+	public ResponseEntity<ServerResponse> login(@RequestBody LoginRequest loginRequest)
 			throws DisabledException, BadCredentialsException {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -44,8 +46,7 @@ public class LoginController {
 		boolean isPremium = userDetails.isPremium();
 		UserVo user = new UserVo(username, password, roles, isEnabled, isPremium);
 		String token = jwtUtil.generateToken(user);
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", token);
-		return ResponseEntity.ok().headers(headers).body("Login success");
+		return new ResponseEntity<ServerResponse>(new ServerResponse(LocalDateTime.now(), HttpStatus.OK, token),
+				HttpStatus.OK);
 	}
 }

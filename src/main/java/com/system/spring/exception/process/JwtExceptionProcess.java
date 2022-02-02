@@ -1,4 +1,4 @@
-package com.system.spring.exception.handler;
+package com.system.spring.exception.process;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,9 +16,9 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Aspect
 @Component
-public class JwtExceptionHandler {
+public class JwtExceptionProcess {
 
-	static Logger log = Logger.getLogger(JwtExceptionHandler.class.getName());
+	static Logger log = Logger.getLogger(JwtExceptionProcess.class.getName());
 
 	@Around("execution(* com.system.spring.utils.JwtUtil.validateToken(..))")
 	public void processJwtException(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {

@@ -86,4 +86,14 @@ public class ClipServiceImpl implements ClipService {
 		return clipRepository.getClipFromName(clipName);
 	}
 
+	@Override
+	public Set<Clip> getClipsFromUser(User user) {
+		return clipRepository.getClipsFromUser(user);
+	}
+
+	@Override
+	public Clip get(long id) {
+		return clipRepository.getById(id);
+	}
+
 }

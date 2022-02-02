@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "Clip")
@@ -34,6 +36,10 @@ public class Clip implements Serializable {
 
 	@Column(name = "price")
 	private long price;
+
+	@Column(name = "enabled", columnDefinition = "TINYINT")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private boolean isEnabled;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "clips")
 	private Set<Category> categories = new HashSet<Category>();
@@ -103,5 +109,13 @@ public class Clip implements Serializable {
 
 	public void setUsersPurchased(Set<User> usersPurchased) {
 		this.usersPurchased = usersPurchased;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 }

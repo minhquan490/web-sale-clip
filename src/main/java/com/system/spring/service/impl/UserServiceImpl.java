@@ -59,12 +59,11 @@ public class UserServiceImpl implements UserService {
 			userRepository.save(user);
 			return true;
 		}
-
 		return false;
 	}
 
 	@Override
-	public boolean edit(User user) {
+	public void edit(User user) {
 		User existingUser = userRepository.getById(user.getId());
 		if (existingUser == null) {
 			throw new ResourceNotFoundException("User is not found");
@@ -80,7 +79,6 @@ public class UserServiceImpl implements UserService {
 		existingUser.setClipsHaveBeenPurchased(user.getClipsHaveBeenPurchased());
 		existingUser.setAvatar(user.getAvatar());
 		userRepository.save(existingUser);
-		return true;
 	}
 
 	@Override
