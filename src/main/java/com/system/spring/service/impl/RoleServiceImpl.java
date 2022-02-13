@@ -28,7 +28,7 @@ public class RoleServiceImpl implements RoleService {
 	public boolean edit(Role role) {
 		Role existingRole = roleRepository.getById(role.getId());
 		if (existingRole == null) {
-			throw new ResourceNotFoundException("Role is not exist");
+			throw new ResourceNotFoundException("Role is not exist", null);
 		} else {
 			existingRole.setRoleName(role.getRoleName());
 			roleRepository.save(existingRole);

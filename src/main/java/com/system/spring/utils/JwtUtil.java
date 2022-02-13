@@ -26,7 +26,8 @@ public class JwtUtil {
 	private final long TOKEN_VALIDITY = 60 * 30 * 1000;
 	private String jwtSecretEncodedKey = Base64.getEncoder().encodeToString(JWT_SECRET_KEY.getBytes());
 
-	public UserVo getUserFromToken(final String TOKEN) throws Exception {
+	public UserVo getUserFromToken(final String TOKEN) throws SignatureException, MalformedJwtException,
+			ExpiredJwtException, UnsupportedJwtException, IllegalAccessException {
 		Claims body = validateToken(TOKEN);
 		UserVo user = new UserVo(body.getSubject(), (String) body.get("email"),
 				Arrays.asList(body.get("roles").toString().split(",")).stream().map(r -> new String(r))

@@ -16,6 +16,8 @@ public class ConfigNullPointHandler {
 		cause.put("getMyClips", "You have not uploaded any content yet");
 		cause.put("updateMyInfo",
 				"Missing field. Please checking your infomation to update following fomat ('First name', 'Last name', 'Gender', 'Birth date')");
+		cause.put("register",
+				"Missing field. Please checking your infomation to update following fomat ('First name', 'Last name', 'Gender', 'Birth date')");
 		return cause;
 	}
 }

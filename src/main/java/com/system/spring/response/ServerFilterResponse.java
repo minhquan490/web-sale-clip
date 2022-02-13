@@ -1,27 +1,25 @@
 package com.system.spring.response;
 
-import java.time.LocalDateTime;
-
 import org.springframework.http.HttpStatus;
 
-public class ServerResponse {
+public class ServerFilterResponse {
 
-	private LocalDateTime timeResponse;
+	private String timeResponse;
 	private HttpStatus code;
 	private String message;
 
-	public ServerResponse(LocalDateTime timeResponse, HttpStatus code, String message) {
+	public ServerFilterResponse(String timeResponse, HttpStatus code, String message) {
 		super();
 		this.timeResponse = timeResponse;
 		this.code = code;
 		this.message = message;
 	}
 
-	public LocalDateTime getTimeResponse() {
+	public String getTimeResponse() {
 		return timeResponse;
 	}
 
-	public void setTimeResponse(LocalDateTime timeResponse) {
+	public void setTimeResponse(String timeResponse) {
 		this.timeResponse = timeResponse;
 	}
 

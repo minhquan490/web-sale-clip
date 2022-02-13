@@ -1,4 +1,4 @@
-package com.system.spring.controller;
+package com.system.spring.controller.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class RegisterController {
 	private UserService userService;
 
 	@PostMapping(ApiConfig.REGISTER_PATH)
-	public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+	public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) throws NullPointerException {
 		UserVo userVo = userService.getUserFromUsername(registerRequest.getUsername());
 		if (userVo == null) {
 			UserVo u = new UserVo();

@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 	public void edit(User user) {
 		User existingUser = userRepository.getById(user.getId());
 		if (existingUser == null) {
-			throw new ResourceNotFoundException("User is not found");
+			throw new ResourceNotFoundException("User is not found", null);
 		}
 		existingUser.setFirstName(user.getFirstName());
 		existingUser.setLastName(user.getLastName());

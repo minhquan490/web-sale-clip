@@ -1,9 +1,11 @@
 package com.system.spring.exception;
 
-@SuppressWarnings("serial")
-public class DisabledUserException extends RuntimeException {
+import org.springframework.security.authentication.DisabledException;
 
-	public DisabledUserException(String message) {
-		super(message);
+@SuppressWarnings("serial")
+public class DisabledUserException extends DisabledException {
+
+	public DisabledUserException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }

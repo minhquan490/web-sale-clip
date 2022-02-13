@@ -57,7 +57,7 @@ public class ResourceUploadController {
 			throws NotSupportException, FileUploadException, IOException {
 		boolean isMultiPart = ServletFileUpload.isMultipartContent(req);
 		if (!isMultiPart) {
-			throw new NotSupportException("Not supported !");
+			throw new NotSupportException("Not supported !", null);
 		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
@@ -90,7 +90,7 @@ public class ResourceUploadController {
 			throws IOException, ServletException, NotSupportException, FileUploadException {
 		boolean isMultiPart = ServletFileUpload.isMultipartContent(req);
 		if (!isMultiPart) {
-			throw new NotSupportException("Not supported !");
+			throw new NotSupportException("Not supported !", null);
 		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();

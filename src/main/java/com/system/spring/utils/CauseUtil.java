@@ -12,8 +12,8 @@ public class CauseUtil {
 	@Autowired
 	private BeanFactory context;
 
+	@SuppressWarnings("unchecked")
 	private Map<String, String> getNullPointerMap() {
-		@SuppressWarnings("unchecked")
 		Map<String, String> cause = (Map<String, String>) context.getBean("causeOfNullPointer");
 		return cause;
 	}

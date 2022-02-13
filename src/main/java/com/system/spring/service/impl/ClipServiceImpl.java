@@ -68,7 +68,7 @@ public class ClipServiceImpl implements ClipService {
 		if (clip != null) {
 			Clip clipExisting = clipRepository.getById(clip.getId());
 			if (clipExisting == null) {
-				throw new ResourceNotFoundException("No clip to delete");
+				throw new ResourceNotFoundException("No clip to delete", null);
 			}
 			clipRepository.delete(clip);
 			return true;

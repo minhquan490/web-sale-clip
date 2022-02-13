@@ -51,7 +51,7 @@ public class CartServiceImpl implements CartService {
 	public boolean delete(Cart cart) {
 		Cart cartExisting = cartRepository.getById(cart.getId());
 		if (cartExisting == null) {
-			throw new ResourceNotFoundException("Cart is not found");
+			throw new ResourceNotFoundException("Cart is not found", null);
 		}
 		cartRepository.delete(cart);
 		return true;

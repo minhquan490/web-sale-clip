@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public boolean delete(Category category) {
 		Category categoryExisting = categoryRepository.getById(category.getId());
 		if (categoryExisting == null) {
-			throw new ResourceNotFoundException("Category is not exist");
+			throw new ResourceNotFoundException("Category is not exist", null);
 		}
 		categoryRepository.delete(category);
 		return true;

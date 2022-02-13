@@ -38,7 +38,7 @@ public class DisplayAvatarController {
 			resp.setHeader("Content-Length", String.valueOf(avatar.length()));
 			Files.copy(avatar.toPath(), resp.getOutputStream());
 		} else {
-			throw new ResourceNotFoundException("invalid avatar");
+			throw new ResourceNotFoundException("invalid avatar", null);
 		}
 	}
 
