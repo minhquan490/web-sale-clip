@@ -10,13 +10,17 @@ public interface CategoryService {
 
 	boolean save(Category category);
 
-	boolean edit(Category category);
-
 	boolean delete(Category category);
 
 	List<Category> getAllCategories();
 
+	List<Category> getCategoriesForHomePage();
+
 	Collection<Clip> getClipsFromCategory(String categoryName);
 
-	Category getCategoryByName(String categoryName);
+	Category get(String categoryName);
+
+	Category get(long id);
+
+	Category getCategoryToSaveClip(String categoryName);
 }

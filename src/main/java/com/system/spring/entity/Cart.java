@@ -11,8 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,8 +32,9 @@ public class Cart implements Serializable {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
-	Set<Item> items = new HashSet<Item>();
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "cart_item", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(referencedColumnName = "item_id"))
+	private Set<Item> items = new HashSet<>();
 
 	public Cart() {
 		super();

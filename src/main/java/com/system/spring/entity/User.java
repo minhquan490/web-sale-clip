@@ -76,12 +76,12 @@ public class User implements Serializable {
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private Set<Clip> clips = new HashSet<Clip>();
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Clip> clips = new HashSet<>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "purchased_clip", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "clip_id"))
-	private Set<Clip> clipsHaveBeenPurchased = new HashSet<Clip>();
+	private Set<Clip> clipsHaveBeenPurchased = new HashSet<>();
 
 	public User() {
 		super();

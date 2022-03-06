@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean save(UserVo userRequest) {
 		if (userRequest != null) {
-			Set<Role> roles = new HashSet<Role>();
+			Set<Role> roles = new HashSet<>();
 			for (String role : userRequest.getRoles()) {
 				roles.add(roleService.getRoleByName(role));
 			}
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void edit(User user) {
+	public boolean edit(User user) {
 		User existingUser = userRepository.getById(user.getId());
 		if (existingUser == null) {
 			throw new ResourceNotFoundException("User is not found", null);
@@ -75,10 +75,12 @@ public class UserServiceImpl implements UserService {
 		existingUser.setPremium(user.isPremium());
 		existingUser.setEnabled(user.isEnabled());
 		existingUser.setRoles(user.getRoles());
-		existingUser.setClips(user.getClips());
-		existingUser.setClipsHaveBeenPurchased(user.getClipsHaveBeenPurchased());
+		existingUser.setClips(user.getClips() == null ? new HashSet<>() : user.getClips());
+		existingUser.setClipsHaveBeenPurchased(
+				user.getClipsHaveBeenPurchased() == null ? new HashSet<>() : user.getClipsHaveBeenPurchased());
 		existingUser.setAvatar(user.getAvatar());
 		userRepository.save(existingUser);
+		return true;
 	}
 
 	@Override

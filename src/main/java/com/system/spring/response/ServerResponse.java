@@ -8,9 +8,9 @@ public class ServerResponse {
 
 	private LocalDateTime timeResponse;
 	private HttpStatus code;
-	private String message;
+	private Object message;
 
-	public ServerResponse(LocalDateTime timeResponse, HttpStatus code, String message) {
+	public ServerResponse(LocalDateTime timeResponse, HttpStatus code, Object message) {
 		super();
 		this.timeResponse = timeResponse;
 		this.code = code;
@@ -33,11 +33,11 @@ public class ServerResponse {
 		this.code = code;
 	}
 
-	public String getMessage() {
+	public Object getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(Object message) {
 		this.message = message;
 	}
 }

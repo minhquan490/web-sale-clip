@@ -8,7 +8,6 @@ import com.system.spring.repository.ItemRepository;
 import com.system.spring.service.ItemService;
 
 @Service
-@SuppressWarnings("deprecation")
 public class ItemServiceImpl implements ItemService {
 
 	@Autowired
@@ -24,23 +23,16 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public boolean edit(Item item) {
-		if (item != null) {
-			Item newItem = itemRepository.getById(item.getId());
-			newItem.setQuantity(item.getQuantity());
-			newItem.setTotal(item.getTotal());
-			itemRepository.save(item);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public boolean delete(Item item) {
 		if (item != null) {
 			itemRepository.delete(item);
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Item getItem(long id) {
+		return itemRepository.getReferenceById(id);
 	}
 }

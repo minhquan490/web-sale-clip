@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.system.spring.config.ApiConfig;
 import com.system.spring.details.UserDetails;
@@ -20,9 +21,10 @@ import com.system.spring.entity.User;
 import com.system.spring.exception.ResourceNotFoundException;
 
 @Controller
+@RequestMapping(ApiConfig.USER_PATH)
 public class DisplayAvatarController {
 
-	private String path = ApiConfig.UPLOAD_DATA_DIRECTORY + ApiConfig.USER_AVATAR + "/";
+	private String rootPath = ApiConfig.UPLOAD_DATA_DIRECTORY + ApiConfig.USER_AVATAR + "/";
 
 	@PreAuthorize("hasAnyAuthority('viewer', 'admin', 'actor')")
 	@GetMapping(ApiConfig.DISPLAY_USER_AVATAR + "/{avatarName}")
@@ -30,6 +32,7 @@ public class DisplayAvatarController {
 			throws IOException, ServletException {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userDetails.getUser();
+		String path = rootPath + user.getUsername() + "/";
 		if (user.getAvatar().contains(avatarName)) {
 			File avatar = new File(path, URLDecoder.decode(user.getAvatar(), "UTF-8"));
 			String contentType = Files.probeContentType(avatar.toPath());

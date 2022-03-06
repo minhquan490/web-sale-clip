@@ -16,7 +16,11 @@ public interface ClipService {
 
 	Clip get(long id);
 
+	Clip get(String name);
+
 	List<Clip> getAllClips();
+
+	List<Clip> getClipsForMainPage();
 
 	List<Clip> getClipFromName(String clipName);
 

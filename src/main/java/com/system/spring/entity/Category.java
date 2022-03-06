@@ -4,15 +4,12 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -29,9 +26,8 @@ public class Category implements Serializable {
 	@Column(name = "category_name")
 	private String categoryName;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "clip_category", joinColumns = @JoinColumn(name = "clip_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Clip> clips = new HashSet<Clip>();
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
+	private Set<Clip> clips = new HashSet<>();
 
 	public Category() {
 		super();

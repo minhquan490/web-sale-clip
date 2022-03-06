@@ -26,6 +26,9 @@ import com.system.spring.service.UserService;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
+	private UrlPatternConfig urlPatternConfig;
+
+	@Autowired
 	private UserService userService;
 
 	@Autowired
@@ -41,7 +44,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeHttpRequests().antMatchers("/login", "/register", "/home").permitAll()
+		http.csrf().disable().authorizeHttpRequests().antMatchers(urlPatternConfig.urlPattern()).permitAll()
 				.anyRequest().authenticated().and().exceptionHandling()
 				.authenticationEntryPoint(authenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -50,7 +53,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/login", "/register", "/home");
+		web.ignoring().antMatchers(urlPatternConfig.urlPattern());
 	}
 
 	@Bean

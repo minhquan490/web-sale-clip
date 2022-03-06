@@ -13,6 +13,26 @@ public class ApiConfig {
 
 	public static final String RESOURCE_PATH = "/resources";
 
+	public static final String CREDIT_PATH = "/credit";
+	public static final String CREATE_CREDIT_INFO = "/create";
+	public static final String DELETE_CREDIT = "/delete";
+	public static final String CREDIT_INFO = "/info";
+
+	public static final String CLIP_PATH = "/clips";
+	public static final String CREATE_CLIP_INFOMATION = "/create-clip-info";
+	public static final String REMOVE_CLIP = "/remove";
+	public static final String UPDATE_CLIP_INFO = "/update";
+	public static final String PLAY = "/play";
+
+	public static final String CATEGORY_PATH = "/categories";
+	public static final String CREATE_CATE = "/create";
+	public static final String ALL_CATE = "/list";
+	public static final String REMOVE_CATE = "/remove";
+
+	public static final String CART_PATH = "/cart";
+	public static final String ADD_TO_CART = "/add";
+	public static final String REMOVE_ITEM = "/remove";
+
 	public static final String USER_PATH = "/user";
 	public static final String MY_INFO_PATH = "/my-info";
 	public static final String MY_CLIP_PURCHASED = "/my-clip-purchased";

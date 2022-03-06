@@ -11,7 +11,7 @@ public interface UserService extends UserDetailsService {
 
 	boolean save(UserVo user);
 
-	void edit(User user);
+	boolean edit(User user);
 
 	boolean delete(User user);
 

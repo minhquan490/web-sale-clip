@@ -12,7 +12,7 @@ public class StatusConfig {
 
 	@Bean(name = "httpStatusMap")
 	public Map<String, HttpStatus> getStatus() {
-		Map<String, HttpStatus> statusMap = new HashMap<String, HttpStatus>();
+		Map<String, HttpStatus> statusMap = new HashMap<>();
 
 		statusMap.put("ExpiredJwtException", HttpStatus.UNAUTHORIZED);
 		statusMap.put("SignatureException", HttpStatus.UNAUTHORIZED);
@@ -24,7 +24,7 @@ public class StatusConfig {
 		statusMap.put("InvalidUserCredentialsException", HttpStatus.UNAUTHORIZED);
 		statusMap.put("NotSupportException", HttpStatus.NOT_ACCEPTABLE);
 		statusMap.put("FileUploadException", HttpStatus.BAD_REQUEST);
-
+		statusMap.put("UnknowException", HttpStatus.INTERNAL_SERVER_ERROR);
 		return statusMap;
 	}
 }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -41,15 +41,16 @@ public class Clip implements Serializable {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean isEnabled;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "clips")
-	private Set<Category> categories = new HashSet<Category>();
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "clip_category", joinColumns = @JoinColumn(name = "clip_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<Category> categories = new HashSet<>();
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "clipsHaveBeenPurchased")
-	private Set<User> usersPurchased = new HashSet<User>();
+	private Set<User> usersPurchased = new HashSet<>();
 
 	public Clip() {
 		super();

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.system.spring.entity.Credit;
+import com.system.spring.entity.User;
 import com.system.spring.repository.CreditRepository;
 import com.system.spring.service.CreditService;
 
@@ -29,5 +30,27 @@ public class CreditServiceImpl implements CreditService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Credit getCreditFromUser(User user) {
+		return creditRepository.getCreditFromUser(user);
+	}
+
+	@Override
+	public boolean edit(Credit newCredit) {
+		if (newCredit != null) {
+			Credit oldCredit = new Credit();
+			oldCredit.setCreditNumber(newCredit.getCreditNumber());
+			oldCredit.setPassCode(newCredit.getPassCode());
+			creditRepository.save(oldCredit);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Credit get(long id) {
+		return creditRepository.getReferenceById(id);
 	}
 }

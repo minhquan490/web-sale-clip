@@ -6,7 +6,7 @@ public interface ItemService {
 
 	boolean save(Item item);
 
-	boolean edit(Item item);
-
 	boolean delete(Item item);
+
+	Item getItem(long id);
 }

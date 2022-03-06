@@ -1,14 +1,10 @@
 package com.system.spring.request;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class RegisterRequest {
 
 	private String username;
 	private String password;
 	private String email;
-	private Set<String> roles = new HashSet<String>();
 
 	public RegisterRequest() {
 		super();
@@ -37,13 +33,4 @@ public class RegisterRequest {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public Set<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<String> roles) {
-		this.roles = roles;
-	}
-
 }

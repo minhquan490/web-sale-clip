@@ -1,11 +1,11 @@
 package com.system.spring.service.impl;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.system.spring.entity.Category;
@@ -15,7 +15,6 @@ import com.system.spring.repository.CategoryRepository;
 import com.system.spring.service.CategoryService;
 
 @Service
-@SuppressWarnings("deprecation")
 public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
@@ -31,28 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public boolean edit(Category category) {
-		Category categoryExisting = categoryRepository.getById(category.getId());
-		if (categoryExisting != null) {
-			if (category.getClips() != null) {
-				Set<Clip> clips = categoryExisting.getClips();
-				if (clips == null) {
-					clips = new HashSet<Clip>();
-				}
-				for (Clip clip : category.getClips()) {
-					clips.add(clip);
-				}
-				categoryExisting.setClips(clips);
-			}
-			categoryRepository.save(categoryExisting);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public boolean delete(Category category) {
-		Category categoryExisting = categoryRepository.getById(category.getId());
+		Category categoryExisting = categoryRepository.getReferenceById(category.getId());
 		if (categoryExisting == null) {
 			throw new ResourceNotFoundException("Category is not exist", null);
 		}
@@ -71,7 +50,23 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category getCategoryByName(String categoryName) {
+	public Category get(String categoryName) {
 		return categoryRepository.getCategoryFromName(categoryName);
+	}
+
+	@Override
+	public Category get(long id) {
+		return categoryRepository.getReferenceById(id);
+	}
+
+	@Override
+	public List<Category> getCategoriesForHomePage() {
+		Pageable page = PageRequest.ofSize(5);
+		return categoryRepository.findAll(page).toList();
+	}
+
+	@Override
+	public Category getCategoryToSaveClip(String categoryName) {
+		return categoryRepository.getCategoryToSaveClip(categoryName);
 	}
 }

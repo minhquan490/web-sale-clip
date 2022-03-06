@@ -1,4 +1,4 @@
-package com.system.spring.controller.client;
+package com.system.spring.controller;
 
 import java.time.LocalDateTime;
 import java.util.Set;

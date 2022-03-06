@@ -16,4 +16,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 	@Query("SELECT c FROM Category c INNER JOIN FETCH c.clips WHERE c.categoryName = :name")
 	public Category getCategoryFromName(@Param("name") String name);
+
+	@Query("SELECT c FROM Category c WHERE c.categoryName = :name")
+	public Category getCategoryToSaveClip(@Param("name") String name);
 }

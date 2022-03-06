@@ -29,6 +29,12 @@ public class Credit implements Serializable {
 	@Column(name = "pass_code", length = 3)
 	private int passCode;
 
+	@Column(name = "credit_classification")
+	private String creditClassification;
+
+	@Column(name = "expiration_month", length = 5)
+	private String expirationMonth;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@MapsId
 	@JoinColumn(name = "user_id")
@@ -73,5 +79,21 @@ public class Credit implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getCreditClassification() {
+		return creditClassification;
+	}
+
+	public void setCreditClassification(String creditClassification) {
+		this.creditClassification = creditClassification;
+	}
+
+	public String getExpirationMonth() {
+		return expirationMonth;
+	}
+
+	public void setExpirationMonth(String expirationMonth) {
+		this.expirationMonth = expirationMonth;
 	}
 }

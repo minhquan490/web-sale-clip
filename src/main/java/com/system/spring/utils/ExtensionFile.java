@@ -23,4 +23,15 @@ public class ExtensionFile {
 		String extensionName = contentType.substring(begin + 1);
 		return extensionMap.get(extensionName);
 	}
+
+	public String getContentType(String extension) {
+		String content = null;
+		Map<String, String> extensionMap = getExtensionMap();
+		extensionMap.keySet().forEach(key -> {
+			if (key.equals(extension)) {
+				key = content;
+			}
+		});
+		return content;
+	}
 }

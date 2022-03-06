@@ -1,6 +1,8 @@
 package com.system.spring.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,7 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,16 +32,22 @@ public class Item implements Serializable {
 	@Column(name = "total")
 	private long total;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "clip_id")
 	private Clip clip;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "cart_id", nullable = false)
-	private Cart cart;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "items", cascade = CascadeType.ALL)
+	private Set<Cart> carts = new HashSet<>();
 
 	public Item() {
 		super();
+	}
+
+	public Item(long quantity, long total, Clip clip) {
+		super();
+		this.quantity = quantity;
+		this.total = total;
+		this.clip = clip;
 	}
 
 	public long getId() {
@@ -74,11 +82,11 @@ public class Item implements Serializable {
 		this.clip = clip;
 	}
 
-	public Cart getCart() {
-		return cart;
+	public Set<Cart> getCarts() {
+		return carts;
 	}
 
-	public void setCart(Cart cart) {
-		this.cart = cart;
+	public void setCarts(Set<Cart> carts) {
+		this.carts = carts;
 	}
 }

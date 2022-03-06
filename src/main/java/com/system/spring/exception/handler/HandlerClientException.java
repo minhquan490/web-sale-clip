@@ -21,15 +21,15 @@ public class HandlerClientException {
 	@Autowired
 	private HttpStatusUtil status;
 
-	@AfterThrowing(pointcut = "execution(* com.system.spring.exception.process.ProcessClientException.*.*(..))", throwing = "e")
+	@AfterThrowing(pointcut = "execution(* com.system.spring.exception.process.ProcessExceptionClient.*.*(..))", throwing = "e")
 	@ExceptionHandler(Throwable.class)
 	public @ResponseBody ResponseEntity<ServerResponse> handleException(Exception e) {
 
 		int beginIndex = e.getClass().getName().lastIndexOf(".") + 1;
 		int endIndex = e.getClass().getName().length();
 		HttpStatus httpstatus = status.getStatus(e.getClass().getName().substring(beginIndex, endIndex));
-		return new ResponseEntity<ServerResponse>(new ServerResponse(LocalDateTime.now(), httpstatus, e.getMessage()),
-				httpstatus);
+		return ResponseEntity.status(httpstatus)
+				.body(new ServerResponse(LocalDateTime.now(), httpstatus, e.getMessage()));
 
 	}
 }
