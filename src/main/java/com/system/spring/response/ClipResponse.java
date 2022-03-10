@@ -9,6 +9,7 @@ public class ClipResponse {
 	private long price;
 	private Set<String> categories;
 	private String link;
+	private double rate;
 
 	public ClipResponse() {
 		super();
@@ -31,6 +32,16 @@ public class ClipResponse {
 		this.link = link;
 	}
 
+	public ClipResponse(long id, String name, long price, Set<String> categories, String link, double rate) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.categories = categories;
+		this.link = link;
+		this.rate = rate;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -49,5 +60,9 @@ public class ClipResponse {
 
 	public String getLink() {
 		return link;
+	}
+
+	public double getRate() {
+		return rate;
 	}
 }

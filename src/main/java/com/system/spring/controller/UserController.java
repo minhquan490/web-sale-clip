@@ -35,7 +35,7 @@ public class UserController {
 
 	@PreAuthorize("hasAnyAuthority('viewer', 'admin', 'actor')")
 	@GetMapping(ApiConfig.MY_INFO_PATH)
-	public @ResponseBody ResponseEntity<ServerResponse> myInfo(HttpServletRequest req) throws Exception {
+	public @ResponseBody ResponseEntity<ServerResponse> myInfo(HttpServletRequest req) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		User user = userDetails.getUser();

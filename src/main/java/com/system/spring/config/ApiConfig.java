@@ -23,6 +23,7 @@ public class ApiConfig {
 	public static final String REMOVE_CLIP = "/remove";
 	public static final String UPDATE_CLIP_INFO = "/update";
 	public static final String PLAY = "/play";
+	public static final String RATE_CLIP = "/rate";
 
 	public static final String CATEGORY_PATH = "/categories";
 	public static final String CREATE_CATE = "/create";

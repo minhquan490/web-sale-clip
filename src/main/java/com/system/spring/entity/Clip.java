@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,6 +41,10 @@ public class Clip implements Serializable {
 	@Column(name = "enabled", columnDefinition = "TINYINT")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean isEnabled;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "clip_rate", joinColumns = @JoinColumn(name = "clip_id"), inverseJoinColumns = @JoinColumn(name = "rate_id"))
+	private Set<Rate> rates = new HashSet<>();
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "clip_category", joinColumns = @JoinColumn(name = "clip_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -118,5 +123,13 @@ public class Clip implements Serializable {
 
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
+	}
+
+	public Set<Rate> getRates() {
+		return rates;
+	}
+
+	public void setRates(Set<Rate> rates) {
+		this.rates = rates;
 	}
 }

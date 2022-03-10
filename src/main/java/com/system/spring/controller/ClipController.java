@@ -6,6 +6,8 @@ import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,10 +37,12 @@ import com.system.spring.config.ApiConfig;
 import com.system.spring.details.UserDetails;
 import com.system.spring.entity.Category;
 import com.system.spring.entity.Clip;
+import com.system.spring.entity.Rate;
 import com.system.spring.entity.User;
 import com.system.spring.exception.ResourceNotFoundException;
 import com.system.spring.exception.UnknowException;
 import com.system.spring.request.ClipRequest;
+import com.system.spring.request.RateRequest;
 import com.system.spring.response.ClipResponse;
 import com.system.spring.response.ServerResponse;
 import com.system.spring.service.CategoryService;
@@ -213,6 +217,44 @@ public class ClipController {
 			return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).headers(headers).body(responseBody);
 		} catch (FileNotFoundException e) {
 			throw new ResourceNotFoundException("Not found", e);
+		}
+	}
+
+	@PreAuthorize("hasAuthority('viewer')")
+	@PutMapping(ApiConfig.RATE_CLIP + "/{idClip}")
+	@ResponseBody
+	public ResponseEntity<ServerResponse> rateClip(@PathVariable(name = "idClip") String idClip,
+			@RequestBody RateRequest rateRequest, HttpServletRequest req) {
+		Clip clip = clipService.get(Long.valueOf(idClip));
+		Set<Rate> rates = clip.getRates() == null ? new HashSet<>() : clip.getRates();
+		rates.add(new Rate(rateRequest.getValue(), rateRequest.getDecription()));
+		Set<String> categories = new HashSet<>();
+		for (Category category : clip.getCategories()) {
+			categories.add(category.getCategoryName());
+		}
+		if (clipService.edit(clip)) {
+			double rate = 0;
+			int average = 0;
+			int temp = 0;
+			if (rates.isEmpty()) {
+				rate = 0;
+			} else {
+				for (Rate r : rates) {
+					average++;
+					temp += r.getValue();
+				}
+				NumberFormat formatter = new DecimalFormat("#0.00");
+				rate = Double.parseDouble(formatter.format((double) temp / average));
+			}
+			return ResponseEntity.ok(new ServerResponse(LocalDateTime.now(), HttpStatus.OK,
+					new ClipResponse(clip.getId(), clip.getName(), clip.getPrice(), categories,
+							req.getScheme() + "://" + req.getServerName() + ":" + String.valueOf(req.getServerPort())
+									+ req.getContextPath() + ApiConfig.CLIP_PATH + ApiConfig.PLAY + "/"
+									+ String.valueOf(clip.getId()),
+							rate)));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(new ServerResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST, "Rate failure"));
 		}
 	}
 }
