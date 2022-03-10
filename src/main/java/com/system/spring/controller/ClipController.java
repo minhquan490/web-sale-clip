@@ -77,7 +77,7 @@ public class ClipController {
 		}
 		clip.setCategories(categories);
 		clip.setUser(user);
-		clip.setEnabled(clipRequest.isEnable());
+		clip.setEnabled(Boolean.getBoolean(clipRequest.isEnable()));
 		if (clipService.save(clip)) {
 			Clip clipSaved = clipService.get(clipRequest.getClipName());
 			Set<String> categoryName = new HashSet<>();
@@ -94,11 +94,15 @@ public class ClipController {
 
 	@PreAuthorize("hasAnyAuthority('actor', 'admin')")
 	@DeleteMapping(ApiConfig.REMOVE_CLIP + "/{id}")
-	public @ResponseBody ResponseEntity<ServerResponse> deleteClip(@PathVariable(value = "id") String id)
-			throws EntityNotFoundException {
-		Clip clip = clipService.get(Long.valueOf("id"));
+	public @ResponseBody ResponseEntity<ServerResponse> deleteClip(@PathVariable(value = "id") String id,
+			HttpServletRequest req) throws EntityNotFoundException, IOException {
+		Clip clip = clipService.get(Long.valueOf(id));
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userDetails.getUser();
 		if (clipService.delete(clip)) {
-			return ResponseEntity.ok(new ServerResponse(LocalDateTime.now(), HttpStatus.OK, "Delete clip success"));
+			Files.delete(Path.of(ApiConfig.UPLOAD_DATA_DIRECTORY + ApiConfig.USER_VIDEO + "/" + user.getUsername() + "/"
+					+ clip.getLink()));
+			return ResponseEntity.ok(new ServerResponse(LocalDateTime.now(), HttpStatus.OK, "Delete success"));
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(new ServerResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST, "Delete failure"));
@@ -122,7 +126,7 @@ public class ClipController {
 			});
 		}
 		clip.setCategories(categories);
-		clip.setEnabled(clipRequest.isEnable());
+		clip.setEnabled(Boolean.getBoolean(clipRequest.isEnable()));
 		if (clipService.edit(clip)) {
 			Set<String> categoryName = new HashSet<>();
 			clip.getCategories().forEach(c -> categoryName.add(c.getCategoryName()));

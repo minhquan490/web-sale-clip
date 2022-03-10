@@ -90,7 +90,10 @@ public class ResourceUploadController {
 		}
 		clipService.edit(clip);
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new ServerResponse(LocalDateTime.now(), HttpStatus.CREATED, "Upload success"));
+				.body(new ServerResponse(LocalDateTime.now(), HttpStatus.CREATED,
+						req.getScheme() + "://" + req.getServerName() + ":" + String.valueOf(req.getServerPort())
+								+ req.getContextPath() + ApiConfig.CLIP_PATH + ApiConfig.PLAY + "/"
+								+ String.valueOf(clip.getId())));
 	}
 
 	@PreAuthorize("hasAnyAuthority('viewer', 'admin', 'actor')")

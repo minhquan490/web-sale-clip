@@ -5,7 +5,7 @@ public class ClipRequest {
 	private String clipName;
 	private String price;
 	private String[] categories;
-	private boolean isEnable;
+	private String isEnable;
 
 	public ClipRequest() {
 		super();
@@ -23,7 +23,7 @@ public class ClipRequest {
 		return categories;
 	}
 
-	public boolean isEnable() {
+	public String isEnable() {
 		return isEnable;
 	}
 }
