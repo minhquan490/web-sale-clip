@@ -43,4 +43,6 @@ public class ApiConfig {
 	public static final String UPLOAD_AVATAR_PATH = "/upload/avatar";
 	public static final String UPLOAD_CLIP_PATH = "/upload/clip";
 
+	public static final String WATCH_PATH = "/watch";
+
 }

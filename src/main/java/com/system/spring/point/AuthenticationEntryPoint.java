@@ -1,4 +1,4 @@
-package com.system.spring.config;
+package com.system.spring.point;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
