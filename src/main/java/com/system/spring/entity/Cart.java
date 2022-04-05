@@ -33,7 +33,7 @@ public class Cart implements Serializable {
 	private User user;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "cart_item", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(referencedColumnName = "item_id"))
+	@JoinTable(name = "cart_item", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private Set<Item> items = new HashSet<>();
 
 	public Cart() {

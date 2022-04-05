@@ -40,8 +40,7 @@ public class AuthenticationEntryPoint implements org.springframework.security.we
 				.getStatus(authException.getCause().getClass().getName().substring(beginIndex, endIndex));
 		ServerFilterResponse serverResponse = new ServerFilterResponse(LocalDateTime.now().toString(), httpstatus,
 				authException.getMessage());
-		HttpServletResponse resp = response;
-		resp.setStatus(httpstatus.value());
-		resp.getWriter().write(convertObjToJson(serverResponse));
+		response.setStatus(httpstatus.value());
+		response.getWriter().write(convertObjToJson(serverResponse));
 	}
 }
