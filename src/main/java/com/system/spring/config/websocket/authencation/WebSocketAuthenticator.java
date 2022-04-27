@@ -1,14 +1,13 @@
-package com.system.spring.authentication;
-
-import java.util.Collections;
+package com.system.spring.config.websocket.authencation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import com.system.spring.details.UserDetails;
 import com.system.spring.request.UserVo;
+import com.system.spring.service.UserService;
 import com.system.spring.utils.JwtUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -22,11 +21,14 @@ public class WebSocketAuthenticator {
 	@Autowired
 	private JwtUtil jwtUtil;
 
+	@Autowired
+	private UserService userService;
+
 	public UsernamePasswordAuthenticationToken getAuthenticationOrFail(final String TOKEN)
 			throws AuthenticationException, ExpiredJwtException, SignatureException, MalformedJwtException,
 			UnsupportedJwtException, IllegalAccessException {
-		UserVo userVo = jwtUtil.getUserFromToken(TOKEN);
-		return new UsernamePasswordAuthenticationToken(userVo.getUsername(), null,
-				Collections.singleton((GrantedAuthority) userVo.getRoles()));
+		UserVo user = jwtUtil.getUserFromToken(TOKEN);
+		UserDetails userDetails = (UserDetails) userService.loadUserByUsername(user.getUsername());
+		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
 }

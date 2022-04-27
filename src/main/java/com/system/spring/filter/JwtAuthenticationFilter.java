@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -46,7 +47,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		try {
-			String token = request.getHeader("Authorization");
+			String token = null;
+			Cookie[] cookies = request.getCookies();
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("Authorization")) {
+					token = cookies[i].getValue();
+				}
+			}
 			if (token == null) {
 				throw new JwtMissingException("No JWT token found in request", null);
 			}

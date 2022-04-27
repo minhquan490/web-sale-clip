@@ -15,8 +15,7 @@ public class HttpStatusUtil {
 
 	@SuppressWarnings("unchecked")
 	private Map<String, HttpStatus> getHttpStatusMap() {
-		Map<String, HttpStatus> httpStatusMap = (Map<String, HttpStatus>) context.getBean("httpStatusMap");
-		return httpStatusMap;
+		return (Map<String, HttpStatus>) context.getBean("httpStatusMap");
 	}
 
 	public HttpStatus getStatus(String cause) {

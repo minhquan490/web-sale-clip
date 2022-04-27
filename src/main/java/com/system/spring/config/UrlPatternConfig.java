@@ -16,6 +16,7 @@ public class UrlPatternConfig {
 		urlPatern.add(ApiConfig.LOGIN_PATH);
 		urlPatern.add(ApiConfig.REGISTER_PATH);
 		urlPatern.add(ApiConfig.CLIP_PATH + ApiConfig.PLAY + "/*");
+		urlPatern.add(ApiConfig.STOMP_SERVER);
 		return urlPatern.toArray(new String[0]);
 	}
 }

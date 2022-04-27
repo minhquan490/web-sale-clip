@@ -46,11 +46,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeHttpRequests().antMatchers(urlPatternConfig.urlPattern()).permitAll()
-				.anyRequest().authenticated().and().exceptionHandling()
-				.authenticationEntryPoint(authenticationEntryPoint).and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers("/watch")
-				.permitAll().anyRequest().denyAll();
+		http.csrf().disable().authorizeRequests().antMatchers(urlPatternConfig.urlPattern()).permitAll().anyRequest()
+				.authenticated().and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 

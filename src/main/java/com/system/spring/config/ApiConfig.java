@@ -45,4 +45,6 @@ public class ApiConfig {
 
 	public static final String WATCH_PATH = "/watch";
 
+	public static final String STOMP_SERVER = "/ws";
+
 }
